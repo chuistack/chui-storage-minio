@@ -1,31 +1,10 @@
 name: {{globalAppName}}-core
 runtime: nodejs
-description: Configure the core services we need running on a Chui cluster for {{globalAppName}}.
+description: Deploy Minio to a Chui cluster.
 template:
-# Might be enabled this way eventually...
-#  cloudflareEmail:
-#    description: The cloudflare email to use if you enable the CloudFlare DNS resolver. Leave blank if not enabled.
-#    default:
-#    secret: true
-#  cloudflareKey:
-#    description: The cloudflare API key to use if you enable the CloudFlare DNS resolver. Leave blank if not enabled.
-#    default:
-#    secret: true
-  iamAdminPassword:
-    description: The password to login to KeyCloak. (username is `keycloak`)
-    secret: true
-  iamDbPassword:
-    description: The password for the KeyCloak database.
-    secret: true
-  letsencryptEmail:
-    description: The email to be used with Let's Encrypt.
-    secret: true
   minioAccessKey:
     description: The access key to use with S3-compatible Minio config.
     secret: true
   minioSecretKey:
     description: The secret key to use with S3-compatible Minio config.
-    secret: true
-  openFaasAdminPassword:
-    description: The admin password for OpenFaas. (username is `chui-openfaas`)
     secret: true
