@@ -3,3 +3,4 @@ source: git@github.com:chuistack/chui-storage-minio.git
 type: storage
 variant: minio
 name: {{globalAppName}}-{{application}}
+pulumiOrgName: {{pulumiOrgName}}
