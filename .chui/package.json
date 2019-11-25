@@ -1,5 +1,7 @@
 {
-    "name": "chui-core",
+    "name": "chui-storage-minio",
+    "description": "Deploys Minio to a Chui cluster.",
+    "license": "MIT",
     "devDependencies": {
         "@types/node": "latest"
     },
