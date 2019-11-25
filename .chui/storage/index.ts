@@ -1,20 +1,8 @@
 import * as k8s from "@pulumi/kubernetes";
-import {
-    MINIO_ACCESS_KEY,
-    MINIO_ENDPOINT,
-    MINIO_RELEASE_NAME,
-    MINIO_SECRET_KEY,
-    MINIO_TLS_SECRET,
-} from "../constants";
+import {MINIO_ACCESS_KEY, MINIO_ENDPOINT, MINIO_RELEASE_NAME, MINIO_SECRET_KEY, MINIO_TLS_SECRET,} from "../constants";
 import {Chui} from "@chuistack/chui-lib";
-import {getStack, StackReference} from "@pulumi/pulumi";
 
-const chui = Chui.Config.loadCurrentConfig();
-const core = new StackReference(`${chui.pulumiOrgName}/${chui.globalAppName}-core/${getStack()}`);
-
-export const PRODUCTION_CLUSTER_ISSUER_ANNOTATION = core.getOutput('productionClusterIssuerAnnotation');
-export const STAGING_CLUSTER_ISSUER_ANNOTATION = core.getOutput('stagingClusterIssuerAnnotation');
-export const INGRESS_CLASS_ANNOTATION = core.getOutput('ingressClassAnnotation');
+const {Ingress} = Chui.App;
 
 const configureMinio = () => {
     return new k8s.helm.v2.Chart(
@@ -33,11 +21,11 @@ const configureMinio = () => {
                 "ingress": {
                     "enabled": true,
                     "annotations": {
-                        ...INGRESS_CLASS_ANNOTATION,
+                        ...Ingress.getIngressClassAnnotation(),
                         ...(
-                            chui.environment === "production" ?
-                                PRODUCTION_CLUSTER_ISSUER_ANNOTATION:
-                                STAGING_CLUSTER_ISSUER_ANNOTATION
+                            Chui.Environment.getEnv() === "production" ?
+                                Ingress.getProductionClusterIssuerAnnotation() :
+                                Ingress.getStagingClusterIssuerAnnotation()
                         ),
                     },
                     "hosts": [
